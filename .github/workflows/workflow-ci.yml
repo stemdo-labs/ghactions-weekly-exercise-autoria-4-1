@@ -14,11 +14,26 @@ on:
       - 3-construir-la-imagen-y-subirla-a-dockerhub
 
 jobs:
-  build_and_push:
+  set_image_tag:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
+
+      - name: Set Image Tag
+        id: set_image_tag
+        run: |
+          version=$(jq -r '.version' package.json)
+          echo "Image tag set to: $version"
+          echo "output_var=$version" >> $GITHUB_ENV
+
+  build_and_push:
+    needs: set_image_tag
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+  
 
       - name: Login to Registry
         run: |
@@ -28,14 +43,13 @@ jobs:
       - name: Set Image Tag
         run: |
           
-          echo "Image tag set to: ${{ vars.IMAGE_TAG }}"
-          sed -i "s/<IMAGE_TAG>/${{ vars.IMAGE_TAG }}/g" Dockerfile 
+          echo "Image tag set to: ${{ needs.set_image_tag.outputs.version }}"
+          sed -i "s/<IMAGE_TAG>/${{ needs.set_image_tag.outputs.version }}/g" Dockerfile 
         # Este comando establece la etiqueta de la imagen como el hash de confirmación actual de GitHub.
         #buscando todas las ocurrencias de image tag en el dockerfile
         #cada vez que se cree una nueva imagen tendrá una etiqueta unica asociada al hash del commit
 
       - name: Build and Push Image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/app:${{ vars.IMAGE_TAG }} .
-          docker push ${{ secrets.DOCKER_USERNAME }}/app:${{ vars.IMAGE_TAG }}
-
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/app:${{ needs.set_image_tag.outputs.version }} .
+          docker push ${{ secrets.DOCKER_USERNAME }}/app:${{ needs.set_image_tag.outputs.version }}
