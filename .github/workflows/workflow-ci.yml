@@ -22,7 +22,9 @@ jobs:
 
       - name: Set Image Tag
         id: set_image_tag
-        run: echo "version=$(jq -r .version package.json)" >> "$GITHUB_OUTPUT"
+        run: | 
+          echo "version=$(jq -r .version package.json)" >> "$GITHUB_OUTPUT"
+          echo $GITHUB_OUTPUT
 
   build_and_push:
     needs: set_image_tag
