@@ -11,6 +11,7 @@ on:
     branches:
       - main 
       - dev
+      - 3-construir-la-imagen-y-subirla-a-dockerhub
 
 jobs:
   build_and_push:
