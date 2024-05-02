@@ -30,7 +30,7 @@ jobs:
       id: Docker-Run
       
       run: |
-           docker run -d --name app -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/app:${{ vars.IMAGE_TAG }}
+           docker run -d --name app -p 080:8080 ${{ secrets.DOCKER_USERNAME }}/app:${{ vars.IMAGE_TAG }}
            docker tag ${{ secrets.DOCKER_USERNAME }}/app:${{ vars.IMAGE_TAG }} ${{ secrets.DOCKER_USERNAME }}/app:${{ vars.IMAGE_TAG }}
 
     - name: Actualizar curl
