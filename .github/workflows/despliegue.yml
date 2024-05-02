@@ -33,7 +33,7 @@ jobs:
 
     - name: Realizar solicitud HTTP con Curl
       run: |
-           docker run --rm curlimages/curl:latest curl -sSL https://localhost:8080 > response.html
+           curl -sSL https://localhost:8080 > response.html
 
     - name: Mostrar HTML
       run: cat response.html
