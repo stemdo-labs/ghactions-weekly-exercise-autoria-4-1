@@ -19,6 +19,9 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
+        with: 
+          path:
+              '../..'
 
       - name: Set Image Tag
         id: set_image_tag
@@ -30,6 +33,7 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
+        
   
 
       - name: Login to Registry
