@@ -28,5 +28,5 @@ jobs:
     - name: Ejecutar nuevo contenedor
       run: |
            docker run -d --name app -p 80:80 ${{ secrets.DOCKER_USERNAME }}/app:${{ vars.IMAGE_TAG }}
-           docker tag ${{ secrets.DOCKER_USERNAME }}/app:${{ github.sha }} ${{ secrets.DOCKER_USERNAME }}/app:${{ vars.IMAGE_TAG }}
+           docker tag ${{ secrets.DOCKER_USERNAME }}/app:${{ vars.IMAGE_TAG }} ${{ secrets.DOCKER_USERNAME }}/app:${{ vars.IMAGE_TAG }}
  
