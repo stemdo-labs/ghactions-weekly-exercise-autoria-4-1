@@ -36,7 +36,7 @@ jobs:
 
     - name: Realizar solicitud HTTP con Curl
       run: |
-           curl https://localhost:8080 > response.html
+           curl http://localhost:8080 > response.html
 
     - name: Mostrar HTML
       run: cat response.html
