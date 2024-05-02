@@ -29,4 +29,12 @@ jobs:
       run: |
            docker run -d --name app -p 80:80 ${{ secrets.DOCKER_USERNAME }}/app:${{ vars.IMAGE_TAG }}
            docker tag ${{ secrets.DOCKER_USERNAME }}/app:${{ vars.IMAGE_TAG }} ${{ secrets.DOCKER_USERNAME }}/app:${{ vars.IMAGE_TAG }}
+
+    - name: Realizar solicitud HTTP con Curl
+      run: |
+           docker run --rm curlimages/curl:latest curl -sSL https://localhost:8080 > response.html
+
+    - name: Mostrar HTML
+      run: cat response.html
+
  
