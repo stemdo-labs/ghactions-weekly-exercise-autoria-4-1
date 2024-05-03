@@ -35,4 +35,4 @@ La rama main/master será de desplegar en el entorno de production y la rama de 
 
 ## Contribución
 
-¡Tus contribuciones son bienvenidas! Si tienes ideas para nuevos ejercicios o mejoras para los existentes, no dudes en abrir un issue o abrir un pull request. 
+¡Tus contribuciones son bienvenidas! Si tienes ideas para nuevos ejercicios o mejoras para los existentes, no dudes en abrir un issue o abrir un pull request.
