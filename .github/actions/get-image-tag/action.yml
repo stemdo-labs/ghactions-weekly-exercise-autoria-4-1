@@ -24,7 +24,7 @@ runs:
       run: | 
         version=$(jq -r .version package.json)
         if [[ "${{ inputs.target }}" == "dev" ]]; then
-          version="${version} --snapshot"
+          version="${version}-snapshot"
         fi
         echo "version=${version}" >> "$GITHUB_OUTPUT"
         echo $GITHUB_OUTPUT
