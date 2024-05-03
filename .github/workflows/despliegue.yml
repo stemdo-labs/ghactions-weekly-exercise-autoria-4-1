@@ -17,6 +17,9 @@ jobs:
   my_custom_job:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
       - name: Use Set Image Tag Action
         uses: ./.github/actions/get-image-tag
         id: get_tag
