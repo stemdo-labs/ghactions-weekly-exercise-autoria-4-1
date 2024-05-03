@@ -40,7 +40,7 @@ jobs:
         docker_username: ${{ secrets.DOCKER_USERNAME }}
         image_tag: ${{ needs.get_image.outputs.tag }}
 
-    - name: Use Set Image Tag Action
+    - name: Curl Tests
       uses: ./.github/actions/curl-tests
       
 
