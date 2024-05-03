@@ -1,6 +1,12 @@
 name: 'Get image tag'
 description: 'Get docker image tag from package.json'
 
+inputs:
+  target:
+    description: 'Environment type (dev or prod)'
+    required: true
+    default: 'dev'
+
 outputs:
   tag:
     description: 'Docker image tag extracted from package.json'
@@ -16,5 +22,9 @@ runs:
       id: get_image_tag
       shell: bash
       run: | 
-        echo "version=$(jq -r .version package.json)" >> "$GITHUB_OUTPUT"
+        version=$(jq -r .version package.json)
+        if [[ "${{ inputs.environment }}" == "dev" ]]; then
+          version="${version} --snapshot"
+        fi
+        echo "version=${version}" >> "$GITHUB_OUTPUT"
         echo $GITHUB_OUTPUT

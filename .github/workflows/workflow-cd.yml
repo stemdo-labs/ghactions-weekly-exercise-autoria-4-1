@@ -19,6 +19,8 @@ jobs:
       - name: Use Set Image Tag Action
         uses: ./.github/actions/get-image-tag
         id: get_tag
+        with:
+          target: ${{ inputs.target }}
 
   deploy:
     runs-on: ubuntu-latest
