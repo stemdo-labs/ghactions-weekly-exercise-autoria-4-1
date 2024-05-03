@@ -14,23 +14,34 @@ on:
       - dev
  
 jobs:
+  my_custom_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Use Set Image Tag Action
+        uses: ./.github/actions/get_image_tag
+        id: get_tag
+
+      - name: Print Tag
+        run: echo "Tag is ${{ steps.get_tag.outputs.tag }}"
+
   deploy:
     runs-on: ubuntu-latest
- 
+
     steps:
+    # Checkout
     - name: Checkout Repository
       uses: actions/checkout@v2
-
+    # Pull de la imagen
     - name: Obtener imagen de Docker Hub
       run: docker pull ${{ secrets.DOCKER_USERNAME }}/app:${{ vars.IMAGE_TAG }}
- 
+    # Correr contenedor
     - name: Ejecutar nuevo contenedor
       id: Docker-Run
       
       run: |
            docker run -d --name app -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/app:${{ vars.IMAGE_TAG }}
            docker tag ${{ secrets.DOCKER_USERNAME }}/app:${{ vars.IMAGE_TAG }} ${{ secrets.DOCKER_USERNAME }}/app:${{ vars.IMAGE_TAG }}
-
+    # Test
     - name: Actualizar curl
       run: sudo apt-get update && sudo apt-get install --only-upgrade curl -y
 

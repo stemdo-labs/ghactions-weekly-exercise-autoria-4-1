@@ -1,0 +1,20 @@
+name: 'Get image tag'
+description: 'Get docker image tag from package.json'
+
+outputs:
+  tag: ${{ steps.get_image_tag.outputs.version }}
+
+runs: 
+  using: "composite"
+  steps:
+    - name: Checkout Repository
+        uses: actions/checkout@v2
+
+    - name: Get Image Tag
+      id: get_image_tag
+      shell: bash
+      run: | 
+        echo "version=$(jq -r .version package.json)" >> "$GITHUB_OUTPUT"
+        echo $GITHUB_OUTPUT
+
+
