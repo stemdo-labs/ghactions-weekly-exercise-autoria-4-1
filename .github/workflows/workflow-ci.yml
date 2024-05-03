@@ -6,23 +6,20 @@ on:
       - dev
 
 jobs:
-  set_image_tag:
+  get_image:
     runs-on: ubuntu-latest
     outputs:
-      tag: ${{ steps.set_image_tag.outputs.version }}
-
+      tag: ${{ steps.get_tag.outputs.tag }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Set Image Tag
-        id: set_image_tag
-        run: | 
-          echo "version=$(jq -r .version package.json)" >> "$GITHUB_ENV"
-          echo $GITHUB_ENV
+      - name: Use Set Image Tag Action
+        uses: ./.github/actions/get-image-tag
+        id: get_tag
 
   build_and_push:
-    needs: set_image_tag
+    needs: get_image
     runs-on: ubuntu-latest
     environment:
       name: dev
@@ -36,12 +33,10 @@ jobs:
           registry_username: ${{ secrets.REGISTRY_USERNAME }}
           registry_password: ${{ secrets.REGISTRY_PASSWORD }}
 
-      - name: Set Image Tag
-        run: |
-          echo "Image tag set to: ${{ needs.set_image_tag.outputs.tag }}"
+     
 
       - name: Build and Push Image
         uses: ./.github/actions/build-and-push-image
         with:
           registry_username: ${{ secrets.REGISTRY_USERNAME }}
-          image_tag: ${{ needs.set_image_tag.outputs.tag }}
+          image_tag: ${{ needs.get_image.outputs.tag }}
