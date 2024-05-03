@@ -10,5 +10,6 @@ runs:
   using: "composite"
   steps:
     - name: Login to Registry
+      shell: bash
       run: |
         echo "${{ inputs.registry_password }}" | docker login -u "${{ inputs.docker_username }}" --password-stdin
