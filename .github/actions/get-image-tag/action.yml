@@ -8,7 +8,7 @@ runs:
   using: "composite"
   steps:
     - name: Checkout Repository
-        uses: actions/checkout@v2
+      uses: actions/checkout@v2
 
     - name: Get Image Tag
       id: get_image_tag
