@@ -1,58 +1,47 @@
-name: Reusable Container Workflow
+name: CI (Entorno Dev)
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
-      execute-manually:
-        description: 'Ejecutar manualmente el flujo de trabajo'
+      target: 
+        type: string 
         required: true
-        default: 'true'
-  push:
-    branches:
-      - main 
-      - dev
-      - 3-construir-la-imagen-y-subirla-a-dockerhub
+ 
 
 jobs:
-  set_image_tag:
+  get_image:
     runs-on: ubuntu-latest
     outputs:
-      tag: ${{steps.set_image_tag.outputs.version}}
-
+      tag: ${{ steps.get_tag.outputs.tag }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Set Image Tag
-        id: set_image_tag
-        run: | 
-          echo "version=$(jq -r .version package.json)" >> "$GITHUB_OUTPUT"
-          echo $GITHUB_OUTPUT
+      - name: Use Set Image Tag Action
+        uses: ./.github/actions/get-image-tag
+        id: get_tag
+        with:
+          target: ${{ inputs.target }}
 
   build_and_push:
-    needs: set_image_tag
+    needs: get_image
     runs-on: ubuntu-latest
+    environment: target
+   
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-        
-  
 
       - name: Login to Registry
-        run: |
-          echo "${{ secrets.REGISTRY_PASSWORD }}" | docker login -u "${{ secrets.REGISTRY_USERNAME }}" --password-stdin
-        # Este comando inicia sesión en Docker Hub utilizando los secretos REGISTRY_USERNAME y REGISTRY_PASSWORD.
+        uses: ./.github/actions/login-Registry
+        with:
+          registry_username: ${{ secrets.REGISTRY_USERNAME }}
+          registry_password: ${{ secrets.REGISTRY_PASSWORD }}
 
-      - name: Set Image Tag
-        run: |
-          
-          echo "Image tag set to: ${{ needs.set_image_tag.outputs.tag }}"
-          sed -i "s/<IMAGE_TAG>/${{ needs.set_image_tag.outputs.tag }}/g" Dockerfile 
-        # Este comando establece la etiqueta de la imagen como el hash de confirmación actual de GitHub.
-        #buscando todas las ocurrencias de image tag en el dockerfile
-        #cada vez que se cree una nueva imagen tendrá una etiqueta unica asociada al hash del commit
+     
 
       - name: Build and Push Image
-        run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/app:${{ needs.set_image_tag.outputs.tag }} .
-          docker push ${{ secrets.DOCKER_USERNAME }}/app:${{ needs.set_image_tag.outputs.tag }}
+        uses: ./.github/actions/build-and-push-image
+        with:
+          registry_username: ${{ secrets.DOCKER_USERNAME }}
+          image_tag: ${{ needs.get_image.outputs.tag }}
