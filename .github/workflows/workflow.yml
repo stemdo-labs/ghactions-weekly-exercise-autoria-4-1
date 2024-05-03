@@ -11,25 +11,7 @@ on:
       - dev
 
 jobs:
-  run_ci_cd:
-    runs-on: ubuntu-latest
-    name: Run CI and CD
-    strategy:
-      matrix:
-        environment: [dev, prod]
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
+  run_ci:
+    uses: ./.github/workflows/workflow-ci.yml
 
-      # Ejecutar el workflow de CI
-      - name: Run CI Workflow
-        uses: ./.github/workflows/workflow-ci.yml
-
-      # Ejecutar el workflow de CD
-      - name: Run CD Workflow
-        if: github.event_name == 'push' && matrix.environment == 'prod'
-        uses: ./.github/workflows/workflow-cd.yml
-
-
-
-        
+      
