@@ -24,4 +24,3 @@ runs:
       
       run: |
            docker run -d --name app -p 8080:8080 ${{ inputs.docker_username }}/app:${{ inputs.image_tag }}
-           docker tag ${{ inputs.docker_username }}/app:${{ inputs.image_tag }} ${{ inputs.docker_username }}/app:${{ inputs.image_tag }}
