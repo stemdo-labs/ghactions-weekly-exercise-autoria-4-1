@@ -14,7 +14,7 @@ on:
       - dev
  
 jobs:
-  my_custom_job:
+  get_image:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -31,20 +31,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # Checkout
-    - name: Checkout Repository
-      uses: actions/checkout@v2
-    # Pull de la imagen
-    - name: Obtener imagen de Docker Hub
-      run: docker pull ${{ secrets.DOCKER_USERNAME }}/app:${{ vars.IMAGE_TAG }}
-    # Correr contenedor
-    - name: Ejecutar nuevo contenedor
-      id: Docker-Run
+    # # # Checkout
+    # # - name: Checkout Repository
+    # #   uses: actions/checkout@v2
+    # # # Pull de la imagen
+    # # - name: Obtener imagen de Docker Hub
+    # #   run: docker pull ${{ secrets.DOCKER_USERNAME }}/app:${{ vars.IMAGE_TAG }}
+    # # # Correr contenedor
+    # # - name: Ejecutar nuevo contenedor
+    # #   id: Docker-Run
       
-      run: |
-           docker run -d --name app -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/app:${{ vars.IMAGE_TAG }}
-           docker tag ${{ secrets.DOCKER_USERNAME }}/app:${{ vars.IMAGE_TAG }} ${{ secrets.DOCKER_USERNAME }}/app:${{ vars.IMAGE_TAG }}
+    # #   run: |
+    # #        docker run -d --name app -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/app:${{ vars.IMAGE_TAG }}
+    # #        docker tag ${{ secrets.DOCKER_USERNAME }}/app:${{ vars.IMAGE_TAG }} ${{ secrets.DOCKER_USERNAME }}/app:${{ vars.IMAGE_TAG }}
     # Test
+    - name: Pull and Run Docker Image
+      uses: ./.github/actions/pull-and-run-image
+      with:
+        docker_username: ${{ secrets.DOCKER_USERNAME }}
+        image_tag: ${{ needs.get_image.steps.get_tag.outputs.tag }}
+      
+
     - name: Actualizar curl
       run: sudo apt-get update && sudo apt-get install --only-upgrade curl -y
 

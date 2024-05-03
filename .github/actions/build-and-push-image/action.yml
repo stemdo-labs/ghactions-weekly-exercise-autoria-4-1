@@ -1,10 +1,12 @@
 name: 'Build and push'
 description: 'Build and push image to DockerHub with a tag'
 inputs:
-  registry_username:  
+  registry_username: 
+    description: 'username registry' 
     required: true
-  image_tag: 
-    required: true
+  image_tag:
+      description: 'image-tag' 
+      required: true
 
 runs: 
   using: "composite"
