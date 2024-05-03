@@ -43,5 +43,5 @@ jobs:
       - name: Build and Push Image
         uses: ./.github/actions/build-and-push-image
         with:
-          registry_username: ${{ secrets.REGISTRY_USERNAME }}
+          registry_username: ${{ secrets.DOCKER_USERNAME }}
           image_tag: ${{ needs.get_image.outputs.tag }}

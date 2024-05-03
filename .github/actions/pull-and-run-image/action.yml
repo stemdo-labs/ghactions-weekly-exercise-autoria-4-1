@@ -2,7 +2,7 @@ name: 'Build and push'
 description: 'Build and push image to DockerHub with a tag'
 inputs:
   docker_username: 
-    description: 'username registry' 
+    description: 'docker username' 
     required: true
   image_tag:
       description: 'image-tag' 
