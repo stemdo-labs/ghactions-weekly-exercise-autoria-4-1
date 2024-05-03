@@ -29,6 +29,7 @@ jobs:
           echo $GITHUB_OUTPUT
 
   build_and_push:
+    needs: set_image_tag
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -42,10 +43,9 @@ jobs:
 
       - name: Set Image Tag
         run: |
-          echo "Image tag set to: ${{ needs.outputs.tag }}"
+          echo "Image tag set to: ${{ needs.set_image_tag.outputs.tag }}"
 
       - name: Build and Push Image
-        uses: ./.github/actions/build-and-push-image
-        with:
-          docker_username: ${{ secrets.REGISTRY_USERNAME }}
-          image_tag: ${{ needs.outputs.tag }}
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/app:${{ needs.set_image_tag.outputs.tag }} .
+          docker push ${{ secrets.DOCKER_USERNAME }}/app:${{ needs.set_image_tag.outputs.tag }}
