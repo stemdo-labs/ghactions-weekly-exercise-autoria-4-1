@@ -9,49 +9,38 @@ on:
         default: 'true'
   push:
     branches:
-      - main 
+      - main
       - dev
 
-
 jobs:
-  set_image_tag:
-    runs-on: ubuntu-latest
-    outputs:
-      tag: ${{steps.set_image_tag.outputs.version}}
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: Set Image Tag
-        id: set_image_tag
-        run: | 
-          echo "version=$(jq -r .version package.json)" >> "$GITHUB_OUTPUT"
-          echo $GITHUB_OUTPUT
+    # runs-on: ubuntu-latest
+    # outputs:
+    #   tag: ${{steps.set_image_tag.outputs.version}}
+    # steps:
+    #   - name: image-tag
+    #     uses: ./.github/actions/set-Image-Tag
+    #   - name: Checkout Repository
+    #     uses: actions/checkout@v2
+    #   - name: Extraer valor de la version
+    #     id: set_image_tag
+    #     run: |
+    #       echo "version=$(jq -r .version package.json)" >> "$GITHUB_OUTPUT"
+    #       echo $GITHUB_OUTPUT
 
   build_and_push:
-    needs: set_image_tag
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-        
 
       - name: Login to Registry
         uses: ./.github/actions/login-Registry
-        with: 
+        with:
           docker_username: ${{ secrets.REGISTRY_USERNAME }}
           registry_password: ${{ secrets.REGISTRY_PASSWORD }}
 
-
-      - name: Set Image Tag
-        run: |
-          
-          echo "Image tag set to: ${{ needs.set_image_tag.outputs.tag }}"
-          sed -i "s/<IMAGE_TAG>/${{ needs.set_image_tag.outputs.tag }}/g" Dockerfile 
-        # Este comando establece la etiqueta de la imagen como el hash de confirmación actual de GitHub.
-        #buscando todas las ocurrencias de image tag en el dockerfile
-        #cada vez que se cree una nueva imagen tendrá una etiqueta unica asociada al hash del commit
+      - name: Image-tag
+        uses: ./.github/actions/set-Image-Tag
 
       - name: Build and Push Image
         run: |

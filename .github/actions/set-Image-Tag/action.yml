@@ -1,0 +1,22 @@
+name: 'Extraccion de la version y seteo de la etiqueta'
+description: 'Extraccion y seteo'
+outputs:
+  tag: ${{steps.set_image_tag.outputs.version}}
+
+runs: 
+  using: "composite"
+  steps:
+
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Extraer valor de la version
+      id: set_image_tag
+      shell: bash
+      run: | 
+          echo "version=$(jq -r .version package.json)" >> "$GITHUB_OUTPUT"
+          echo $GITHUB_OUTPUT
+
+    - name: Set Image Tag
+      run: |
+          echo "Image tag set to: ${{ needs.outputs.tag }}"
