@@ -23,7 +23,7 @@ runs:
       shell: bash
       run: | 
         version=$(jq -r .version package.json)
-        if [[ "${{ inputs.environment }}" == "dev" ]]; then
+        if [[ "${{ inputs.target }}" == "dev" ]]; then
           version="${version} --snapshot"
         fi
         echo "version=${version}" >> "$GITHUB_OUTPUT"
