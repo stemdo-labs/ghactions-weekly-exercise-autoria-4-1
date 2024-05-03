@@ -13,5 +13,6 @@ on:
 jobs:
   run_ci:
     uses: ./.github/workflows/workflow-ci.yml
+    secrets: inherit
 
       
