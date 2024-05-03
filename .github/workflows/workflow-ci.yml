@@ -48,4 +48,4 @@ jobs:
         uses: ./.github/actions/build-and-push-image
         with:
           docker_username: ${{ secrets.REGISTRY_USERNAME }}
-          image_tag: ${{ needs.set_image_tag.outputs.tag }}"
+          image_tag: ${{ needs.set_image_tag.outputs.tag }}
