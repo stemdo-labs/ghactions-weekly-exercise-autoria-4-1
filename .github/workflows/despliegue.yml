@@ -1,0 +1,31 @@
+name: Despliegue desde Docker Hub
+ 
+on:
+  workflow_dispatch:
+    inputs:
+      execute-manually:
+        description: 'Ejecutar manualmente el flujo de trabajo'
+        required: true
+        default: 'true'
+ 
+  push:
+    branches:
+      - main
+      - dev
+      - 4-realizar-despliegue-de-la-imagen-de-dockerhub
+ 
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+ 
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Obtener imagen de Docker Hub
+      run: docker pull ${{ secrets.DOCKER_USERNAME }}/app:${{ vars.IMAGE_TAG }}
+ 
+    - name: Ejecutar nuevo contenedor
+      run: |
+           docker run -d --name app -p 80:80 ${{ secrets.DOCKER_USERNAME }}/app:${{ vars.IMAGE_TAG }}
+ 
