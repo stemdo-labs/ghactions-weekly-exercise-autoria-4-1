@@ -45,11 +45,12 @@ jobs:
       run: sudo apt-get update && sudo apt-get install --only-upgrade curl -y
 
     - name: Realizar solicitud HTTP con Curl
-      if: ${{ steps.Docker-Run.outcome == 'success' }}
+      if: success()
       run: |
            curl -sSL http://localhost:8080 > response.html
 
     - name: Mostrar HTML
+      if: success()
       run: cat response.html
 
  
