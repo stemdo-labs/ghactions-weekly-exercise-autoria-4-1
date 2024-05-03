@@ -1,0 +1,15 @@
+name: 'Login en Docker'
+description: 'Login'
+inputs:
+  docker_username:  # id of input
+    required: true
+  registry_password: 
+    required: true
+
+runs: 
+  using: "composite"
+  steps:
+    - name: Login to Registry
+      runs: |
+        echo "${{ inputs.registry_password }}" | docker login -u "${{ inputs.docker_username }}" --password-stdin
+  

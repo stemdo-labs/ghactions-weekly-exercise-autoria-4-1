@@ -11,7 +11,7 @@ on:
     branches:
       - main 
       - dev
-      - 3-construir-la-imagen-y-subirla-a-dockerhub
+
 
 jobs:
   set_image_tag:
@@ -36,12 +36,13 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
         
-  
 
       - name: Login to Registry
-        run: |
-          echo "${{ secrets.REGISTRY_PASSWORD }}" | docker login -u "${{ secrets.REGISTRY_USERNAME }}" --password-stdin
-        # Este comando inicia sesión en Docker Hub utilizando los secretos REGISTRY_USERNAME y REGISTRY_PASSWORD.
+        uses: ./actions/loginRegistry.yml
+        with: 
+          docker_username: ${{ secrets.REGISTRY_USERNAME }}
+          registry_password: ${{ secrets.REGISTRY_PASSWORD }}
+
 
       - name: Set Image Tag
         run: |
