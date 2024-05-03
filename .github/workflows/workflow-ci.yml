@@ -42,10 +42,11 @@ jobs:
 
       - name: Set Image Tag
         run: |
-          echo "Image tag set to: ${{ needs.set_image_tag.outputs.tag }}"
+          echo "Image tag set to: ${{ needs.outputs.tag }}"
 
       - name: Build and Push Image
         uses: ./.github/actions/build-and-push-image
         with:
           docker_username: ${{ secrets.REGISTRY_USERNAME }}
-          image_tag: ${{ needs.set_image_tag.outputs.tag }}
+          image_tag: 
+            value: ${{ needs.outputs.tag }}
