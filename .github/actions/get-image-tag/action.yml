@@ -2,7 +2,9 @@ name: 'Get image tag'
 description: 'Get docker image tag from package.json'
 
 outputs:
-  tag: ${{ steps.get_image_tag.outputs.version }}
+  tag:
+    description: 'Docker image tag extracted from package.json'
+    value: ${{ steps.get_image_tag.outputs.version }}
 
 runs: 
   using: "composite"
@@ -16,5 +18,3 @@ runs:
       run: | 
         echo "version=$(jq -r .version package.json)" >> "$GITHUB_OUTPUT"
         echo $GITHUB_OUTPUT
-
-
