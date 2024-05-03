@@ -17,6 +17,8 @@ runs:
           echo "version=$(jq -r .version package.json)" >> "$GITHUB_OUTPUT"
           echo $GITHUB_OUTPUT
 
+
     - name: Set Image Tag
+      shell: bash
       run: |
           echo "Image tag set to: ${{ needs.outputs.tag }}"
