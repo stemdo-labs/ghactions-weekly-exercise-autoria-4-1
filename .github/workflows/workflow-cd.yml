@@ -42,6 +42,3 @@ jobs:
 
     - name: Curl Tests
       uses: ./.github/actions/curl-tests
-      
-
- 
