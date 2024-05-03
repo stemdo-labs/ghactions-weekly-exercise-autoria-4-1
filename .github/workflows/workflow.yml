@@ -15,4 +15,8 @@ jobs:
     uses: ./.github/workflows/workflow-ci.yml
     secrets: inherit
 
+  run_cd:
+    uses: ./.github/workflows/workflow-cd.yml
+    secrets: inherit
+
       
