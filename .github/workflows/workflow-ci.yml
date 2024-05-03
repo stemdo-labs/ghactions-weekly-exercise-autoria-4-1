@@ -38,7 +38,7 @@ jobs:
         
 
       - name: Login to Registry
-        uses: ./.github/workflows/actions/loginRegistry.yml
+        uses: .github/workflows/acciones/action.yml
         with: 
           docker_username: ${{ secrets.REGISTRY_USERNAME }}
           registry_password: ${{ secrets.REGISTRY_PASSWORD }}

@@ -1,7 +1,7 @@
 name: 'Login en Docker'
 description: 'Login'
 inputs:
-  docker_username:  # id of input
+  docker_username:  
     required: true
   registry_password: 
     required: true
