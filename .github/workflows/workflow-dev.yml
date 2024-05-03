@@ -5,13 +5,14 @@ on:
     branches: dev
 
 jobs:
-  run_ci:
+  run_ci_dev:
     uses: ./.github/workflows/workflow-ci.yml
     secrets: inherit
     with:
       target: dev
 
-  run_cd_dev:   
+  run_cd_dev:
+    needs: run_ci_dev  
     uses: ./.github/workflows/workflow-cd.yml
     secrets: inherit
     with:

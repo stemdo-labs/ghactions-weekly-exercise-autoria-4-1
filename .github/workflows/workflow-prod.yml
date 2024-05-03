@@ -8,13 +8,14 @@ on:
     types: [closed]
 
 jobs:
-  run_ci:
+  run_ci_prod:
     uses: ./.github/workflows/workflow-ci.yml
     secrets: inherit
     with:
       target: prod
 
-  run_cd:    
+  run_cd_prod:
+    needs: run_ci_prod    
     uses: ./.github/workflows/workflow-cd.yml
     secrets: inherit
     with:
