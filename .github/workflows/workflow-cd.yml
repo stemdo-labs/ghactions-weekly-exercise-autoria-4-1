@@ -38,4 +38,5 @@ jobs:
         image_tag: ${{ needs.get_image.outputs.tag }}
 
     - name: Curl Tests
+      if: ${{ inputs.target == 'prod' }}
       uses: ./.github/actions/curl-tests

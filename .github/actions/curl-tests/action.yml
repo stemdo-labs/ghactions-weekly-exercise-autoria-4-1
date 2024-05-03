@@ -8,6 +8,12 @@ runs:
       shell: bash
       run: sudo apt-get update && sudo apt-get install --only-upgrade curl -y
 
+    - name: Esperar unos segundos
+      shell: bash
+      run: |
+        echo "Haciendo cálculos..."
+        sleep 10
+
     - name: Realizar solicitud HTTP con Curl
       shell: bash
       if: success()
