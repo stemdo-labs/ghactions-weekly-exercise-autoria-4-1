@@ -1,4 +1,4 @@
-name: Despliegue desde Docker Hub
+name: workflow cd
  
 on:
   workflow_dispatch:
