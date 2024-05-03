@@ -25,7 +25,6 @@ jobs:
         id: get_tag
 
       - name: Print Tag
-        needs: get_tag
         run: echo "Tag is ${{ steps.get_tag.outputs.tag }}"
 
   deploy:
