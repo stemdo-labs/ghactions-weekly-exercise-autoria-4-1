@@ -1,0 +1,16 @@
+name: 'Build and push'
+description: 'Build and push image to DockerHub with a tag'
+inputs:
+  docker_username:  
+    required: true
+  image_tag: 
+    required: true
+
+runs: 
+  using: "composite"
+  steps:
+    - name: Build and Push Image
+      shell: bash
+      run: |
+        docker build -t ${{ docker_username }}/app:${{ image_tag }} .
+        docker push ${{ docker_username }}/app:${{ image_tag }}
