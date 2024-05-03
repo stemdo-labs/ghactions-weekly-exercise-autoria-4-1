@@ -1,17 +1,8 @@
 name: workflow cd
  
+
 on:
-  workflow_dispatch:
-    inputs:
-      execute-manually:
-        description: 'Ejecutar manualmente el flujo de trabajo'
-        required: true
-        default: 'true'
- 
-  push:
-    branches:
-      - main
-      - dev
+ workflow_call:
  
 jobs:
   get_image:
