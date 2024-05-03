@@ -40,7 +40,7 @@ jobs:
           docker_username: ${{ secrets.REGISTRY_USERNAME }}
           registry_password: ${{ secrets.REGISTRY_PASSWORD }}
 
-       - name: Set Image Tag
+      - name: Set Image Tag
         run: |
           echo "Image tag set to: ${{ needs.set_image_tag.outputs.tag }}"
 
