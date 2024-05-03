@@ -14,19 +14,19 @@ on:
 
 jobs:
   set_image_tag:
-  runs-on: ubuntu-latest
-  outputs:
-    tag: ${{steps.set_image_tag.outputs.version}}
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{steps.set_image_tag.outputs.version}}
 
-  steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
-    - name: Set Image Tag
-      id: set_image_tag
-      run: | 
-        echo "version=$(jq -r .version package.json)" >> "$GITHUB_OUTPUT"
-        echo $GITHUB_OUTPUT
+      - name: Set Image Tag
+        id: set_image_tag
+        run: | 
+          echo "version=$(jq -r .version package.json)" >> "$GITHUB_OUTPUT"
+          echo $GITHUB_OUTPUT
 
   build_and_push:
     runs-on: ubuntu-latest
