@@ -44,5 +44,5 @@ jobs:
 
       - name: Build and Push Image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/app:${{ needs.set_image_tag.outputs.tag }} .
-          docker push ${{ secrets.DOCKER_USERNAME }}/app:${{ needs.set_image_tag.outputs.tag }}
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/app:latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/app:latest
