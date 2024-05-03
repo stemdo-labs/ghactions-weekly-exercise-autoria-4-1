@@ -26,9 +26,6 @@ jobs:
         uses: ./.github/actions/get-image-tag
         id: get_tag
 
-      - name: Print Tag
-        run: echo "Tag is ${{ steps.get_tag.outputs.tag }}"
-
   deploy:
     runs-on: ubuntu-latest
     needs: get_image
