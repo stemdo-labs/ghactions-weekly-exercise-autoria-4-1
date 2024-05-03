@@ -23,12 +23,12 @@ jobs:
 
       # Ejecutar el workflow de CI
       - name: Run CI Workflow
-        uses: ./.github/actions/ci-workflow
+        uses: ./.github/workflows/workflow-ci.yml
 
       # Ejecutar el workflow de CD
       - name: Run CD Workflow
         if: github.event_name == 'push' && matrix.environment == 'prod'
-        uses: ./.github/actions/cd-workflow
+        uses: ./.github/workflows/workflow-cd.yml
 
 
 
